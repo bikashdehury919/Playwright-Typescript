@@ -1,0 +1,24 @@
+{
+  "user": {
+    "email": "bikash@gmail.com",
+    "firstName": "bikash",
+    "lastName": "Dehury",
+    "street": "Almere",
+    "city": "Flevoland",
+    "zipCode": "1362 CG",
+    "country": "Netherlands",
+    "phone": "0684658414"
+  },
+  "product": {
+    "category": "Women",
+    "subCategory": "Tops",
+    "filters": {
+      "Color": "Blue",
+      "Size": "XS"
+    },
+    "size": "XS",
+    "color": "Blue",
+    "quantity": 2
+  },
+  "discountCode": "20poff"
+}
