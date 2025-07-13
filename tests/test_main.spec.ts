@@ -27,7 +27,7 @@ test.describe('Demo Test case E2E Flow', () => {
     await productPage.addProductToCartAndVerify();
     await productPage.openMiniCart();
     await productPage.clickProceedToCheckout();
-    await page.locator("select[name='country_id']").waitFor({ state: 'visible', timeout: 10000 });
+
 
     const checkoutPage = new CheckoutPage(page);
     await checkoutPage.fillShippingAddress(user);

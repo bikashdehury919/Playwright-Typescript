@@ -28,6 +28,7 @@ export class CheckoutPage {
     country: string;
     phone: string;
   }) {
+    await this.page.locator(Loc.COUNTRY_SELECT).waitFor({ state: 'visible', timeout: 10000 });
     await this.page.selectOption(Loc.COUNTRY_SELECT, { label: country });
     await this.page.locator(Loc.POSTCODE_INPUT).waitFor();
     await this.page.locator(Loc.TELEPHONE_INPUT).waitFor();
