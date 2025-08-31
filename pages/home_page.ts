@@ -1,25 +1,18 @@
-// homePage.ts
-import { Page } from '@playwright/test';
+import { BasePage } from './base_page';
 import { HomePageLocators as Loc } from '../locators/home_locators';
 
-export class HomePage {
-  readonly page: Page;
-
-  constructor(page: Page) {
-    this.page = page;
-  }
-
-  async clickTopMenuItem(label: string): Promise<void> {
+export class HomePage extends BasePage {
+  async clickTopMenuItem(label: string) {
     const locator = this.page.locator(Loc.NAVIGATION_MENU).locator(Loc.navMenuItem(label));
     await locator.waitFor({ state: 'visible', timeout: 7000 });
-    await locator.click();
+    await this.scrollAndClick(locator);
     console.log(`Clicked top menu: ${label}`);
   }
 
-  async clickSidebarFilter(filterLabel: string): Promise<void> {
+  async clickSidebarFilter(filterLabel: string) {
     const locator = this.page.locator(Loc.SIDEBAR_FILTER(filterLabel));
     await locator.waitFor({ state: 'visible', timeout: 7000 });
-    await locator.click();
+    await this.scrollAndClick(locator);
     console.log(`Clicked sidebar filter: ${filterLabel}`);
   }
 }

@@ -1,39 +1,55 @@
 import { defineConfig, devices } from '@playwright/test';
+import path from 'path';
+
+const baseURL = process.env.BASE_URL || 'https://magento.softwaretestingboard.com';
+const isCI = !!process.env.CI;
 
 export default defineConfig({
   testDir: './tests',
+  outputDir: path.join(__dirname, 'test-results'), // For screenshots, traces, videos
+
   testMatch: ['**/*.ts'],
-  fullyParallel: true,
-  forbidOnly: !!process.env.CI,
-  retries: 0,
-  workers: 1,
-
-
-  timeout: 60000, // 60 seconds per test
+  timeout: 90000, // 90 seconds per test
   expect: {
-    timeout: 15000, // 10 seconds for expect() assertions
+    timeout: 40000, // For expect() assertions
   },
 
-  reporter: [['html', { open: 'never' }]],
+  // Parallelism and retries
+  fullyParallel: true,
+  retries: isCI ? 2 : 0,
+  workers: isCI ? 2 : 4,
 
+  forbidOnly: isCI, // Prevent .only in CI
+
+  // Reporters
+  reporter: [
+    ['html', { open: isCI ? 'never' : 'on-failure' }],
+    ['list'], 
+  ],
+
+  // Global options for all tests
   use: {
-    headless: false,
-
-    
-    actionTimeout: 15000, // 10 seconds for each UI interaction
-    navigationTimeout: 60000, // 30 seconds for navigation like page.goto
-    baseURL: 'https://magento.softwaretestingboard.com',
+    baseURL,
+    headless: isCI, // Headless on CI
+    viewport: { width: 1280, height: 720 },
+    actionTimeout: 15000,
+    navigationTimeout: 60000,
     screenshot: 'only-on-failure',
-    trace: 'on-first-retry',
+    video: 'retain-on-failure',
+    trace: 'retain-on-failure',
   },
 
+  // Multi-browser support
   projects: [
     {
-      name: 'chromium',
+      name: 'Chromium',
       use: {
         ...devices['Desktop Chrome'],
-        headless: true,
+      
       },
     },
+    
   ],
+
+
 });

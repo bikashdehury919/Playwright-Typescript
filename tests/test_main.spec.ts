@@ -31,11 +31,8 @@ test.describe('Demo Test case E2E Flow', () => {
 
     const checkoutPage = new CheckoutPage(page);
     await checkoutPage.fillShippingAddress(user);
-
-    await page.waitForTimeout(5000);
+    await checkoutPage.selectFirstAvailableShippingMethod();
     await checkoutPage.clickNext();
-    await page.waitForTimeout(5000);
-
     await checkoutPage.applyAndVerifyDiscount(discountCode);
 
     const placeOrderPage = new PlaceOrderPage(page);

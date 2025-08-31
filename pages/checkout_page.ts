@@ -1,45 +1,35 @@
-// checkout_page.ts
-import { Page, expect } from '@playwright/test';
+import { Locator, expect } from '@playwright/test';
+import { BasePage } from './base_page';
 import { CheckoutLocators as Loc } from '../locators/checkout_locators';
 
-export class CheckoutPage {
-  readonly page: Page;
+interface ShippingAddress {
+  email: string;
+  firstName: string;
+  lastName: string;
+  street: string;
+  city: string;
+  zipCode: string;
+  country: string;
+  phone: string;
+}
 
-  constructor(page: Page) {
-    this.page = page;
-  }
+export class CheckoutPage extends BasePage {
 
-  async fillShippingAddress({
-    email,
-    firstName,
-    lastName,
-    street,
-    city,
-    zipCode,
-    country,
-    phone,
-  }: {
-    email: string;
-    firstName: string;
-    lastName: string;
-    street: string;
-    city: string;
-    zipCode: string;
-    country: string;
-    phone: string;
-  }) {
-    await this.page.locator(Loc.COUNTRY_SELECT).waitFor({ state: 'visible', timeout: 10000 });
-    await this.page.selectOption(Loc.COUNTRY_SELECT, { label: country });
+  async fillShippingAddress(address: ShippingAddress) {
+    await this.waitForLoaderToDisappear();
+    await this.page.locator(Loc.COUNTRY_SELECT).waitFor({ state: 'visible', timeout: 30000 });
+    await this.page.selectOption(Loc.COUNTRY_SELECT, { label: address.country });
     await this.page.locator(Loc.POSTCODE_INPUT).waitFor();
     await this.page.locator(Loc.TELEPHONE_INPUT).waitFor();
 
-    await this.page.fill(Loc.EMAIL_INPUT, email);
-    await this.page.fill(Loc.FIRST_NAME_INPUT, firstName);
-    await this.page.fill(Loc.LAST_NAME_INPUT, lastName);
-    await this.page.fill(Loc.STREET_INPUT, street);
-    await this.page.fill(Loc.CITY_INPUT, city);
-    await this.page.fill(Loc.POSTCODE_INPUT, zipCode);
-    await this.page.fill(Loc.TELEPHONE_INPUT, phone);
+    await this.safeFill(this.page.locator(Loc.EMAIL_INPUT), address.email);
+    await this.safeFill(this.page.locator(Loc.FIRST_NAME_INPUT), address.firstName);
+    await this.safeFill(this.page.locator(Loc.LAST_NAME_INPUT), address.lastName);
+    await this.safeFill(this.page.locator(Loc.STREET_INPUT), address.street);
+    await this.safeFill(this.page.locator(Loc.CITY_INPUT), address.city);
+    await this.safeFill(this.page.locator(Loc.POSTCODE_INPUT), address.zipCode);
+    await this.safeFill(this.page.locator(Loc.TELEPHONE_INPUT), address.phone);
+    await this.waitForLoaderToDisappear();
   }
 
   async selectFirstAvailableShippingMethod() {
@@ -52,13 +42,13 @@ export class CheckoutPage {
     }
 
     const firstRow = shippingRows.nth(0);
-    await firstRow.locator(Loc.SHIPPING_METHOD_RADIO).click();
+    await this.scrollAndClick(firstRow.locator(Loc.SHIPPING_METHOD_RADIO));
+    await this.waitForLoaderToDisappear();
   }
 
   async clickNext() {
-    await this.page.locator(Loc.NEXT_BUTTON).click();
-    await this.page.waitForSelector(Loc.LOADER, { state: "visible", timeout: 10000 });
-    await this.page.waitForSelector(Loc.LOADER, { state: "hidden" });
+    await this.scrollAndClick(this.page.locator(Loc.NEXT_BUTTON));
+    await this.waitForLoaderToDisappear();
   }
 
   async applyAndVerifyDiscount(couponCode: string) {
@@ -72,10 +62,10 @@ export class CheckoutPage {
     const shippingText = await this.page.textContent(Loc.SHIPPING_PRICE);
     const totalText = await this.page.textContent(Loc.GRAND_TOTAL_PRICE);
 
-    const subtotal = parseFloat(subtotalText?.replace("$", "") || "0");
-    const discount = parseFloat(discountText?.replace(/[-$]/g, "") || "0");
-    const shipping = parseFloat(shippingText?.replace("$", "") || "0");
-    const total = parseFloat(totalText?.replace("$", "") || "0");
+    const subtotal = this.parsePrice(subtotalText);
+    const discount = this.parsePrice(discountText);
+    const shipping = this.parsePrice(shippingText);
+    const total = this.parsePrice(totalText);
 
     const expectedTotal = parseFloat((subtotal - discount + shipping).toFixed(2));
     expect(total).toBeCloseTo(expectedTotal, 2);

@@ -1,32 +1,23 @@
-import { Page, expect } from '@playwright/test';
+import { expect } from '@playwright/test';
+import { BasePage } from './base_page';
 import { PlaceOrderLocators as Loc } from '../locators/place_order_locators';
 
-export class PlaceOrderPage {
-  private page: Page;
-
-  constructor(page: Page) {
-    this.page = page;
-  }
-
+export class PlaceOrderPage extends BasePage {
   async placeOrderAndCaptureNumber(): Promise<string | null> {
     try {
-      // Click Place Order button
-      await this.page.locator(Loc.PLACE_ORDER_BUTTON).click();
-
-      // Wait for redirection to success page
+      await this.scrollAndClick(this.page.locator(Loc.PLACE_ORDER_BUTTON));
       await this.page.waitForURL(Loc.SUCCESS_PAGE_URL, { timeout: 30000 });
 
-      // Confirm thank you message is visible
       const thankYouMessage = this.page.locator(Loc.THANK_YOU_MESSAGE);
       await expect(thankYouMessage).toContainText('Thank you for your purchase!');
 
-      // Extract order number
       const orderNumber = await this.page.locator(Loc.ORDER_NUMBER).innerText();
       console.log(`Order Number: ${orderNumber}`);
-      return orderNumber;
 
+      return orderNumber;
     } catch (error) {
       console.error(`Failed to place order or capture number: ${error}`);
+      await this.takeScreenshot('placeOrder_failure');
       return null;
     }
   }
