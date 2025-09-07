@@ -8,7 +8,17 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@azure/microsoft-playwright-testing": "^1.0.0-beta.7",
+    "@eslint/js": "^9.34.0",
     "@playwright/test": "^1.54.1",
-    "@types/node": "^24.0.13"
+    "@types/node": "^24.0.13",
+    "eslint": "^9.34.0",
+    "globals": "^16.3.0",
+    "jiti": "^2.5.1",
+    "typescript-eslint": "^8.42.0"
+  },
+  "dependencies": {
+    "dotenv": "^17.2.2",
+    "xlsx": "^0.18.5"
   }
 }
