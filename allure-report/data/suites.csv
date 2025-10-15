@@ -1,0 +1,5 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","28739","Password validation - empty & mismatch","Chromium","Wed Oct 15 01:42:33 CEST 2025","passed","Wed Oct 15 01:43:02 CEST 2025","User Registration Flow","UI\registration.spec.ts","",""
+"","26081","Successful registration","Chromium","Wed Oct 15 01:42:33 CEST 2025","passed","Wed Oct 15 01:43:00 CEST 2025","User Registration Flow","UI\registration.spec.ts","",""
+"","30072","Duplicate email registration","Chromium","Wed Oct 15 01:42:33 CEST 2025","passed","Wed Oct 15 01:43:03 CEST 2025","User Registration Flow","UI\registration.spec.ts","",""
+"","29228","Email validation - invalid formats","Chromium","Wed Oct 15 01:42:34 CEST 2025","passed","Wed Oct 15 01:43:03 CEST 2025","User Registration Flow","UI\registration.spec.ts","",""

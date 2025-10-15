@@ -1,0 +1,16 @@
+{
+  "validUser": {
+    "email": "abc@example.com",
+    "password": "Test123!"
+  },
+  "invalidEmails": [
+    "",
+    "noatsymbol.com",
+    "user@",
+    "user@.com"
+  ],
+  "mismatchPassword": {
+    "password": "Test123!",
+    "confirm_password": "Mismatch123!"
+  }
+}
