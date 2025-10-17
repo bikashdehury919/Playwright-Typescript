@@ -1,0 +1,57 @@
+trigger:
+  branches:
+    include:
+      - main  # Trigger on changes to the main branch
+
+jobs:
+  - job: BuildAndTest
+    displayName: 'Playwright Tests with Power BI Integration'
+
+    pool:
+      vmImage: 'ubuntu-latest'  # Runs the pipeline on an Ubuntu VM
+
+    variables:
+      sqlUser: 'bikash488'  # Replace with your SQL username
+      sqlPassword: '$(SQL_PASSWORD)'  # This is stored securely in pipeline secrets
+      sqlServer: 'bikash488.database.windows.net'  # Replace with your SQL server name
+      sqlDatabase: 'TestAutomation'  # Replace with your database name
+
+    steps:
+      # Step 1: Install Node.js and dependencies
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '22.x'  # Use Node.js version 18
+        displayName: 'Install Node.js'
+
+      - script: |
+          npm ci
+          npm install typescript mssql ts-node
+        displayName: 'Install dependencies and TypeScript'
+
+      # Step 2: Install Playwright browsers
+      - script: |
+          npx playwright install
+        displayName: 'Install Playwright browsers'
+
+      # Step 3: Run Playwright tests and save the result in JSON
+      - script: |
+          npx playwright tests --reporter=json > test-results.json
+        displayName: 'Run Playwright Tests'
+
+      # Step 4: Upload results to Azure SQL
+      - script: |
+          npx ts-node tests/uploadResults.ts  # Run your TypeScript upload script
+        displayName: 'Upload Results to Azure SQL'
+        env:
+          SQLUSER: $(sqlUser)
+          SQLPASSWORD: $(sqlPassword)
+          SQLSERVER: $(sqlServer)
+          SQLDATABASE: $(sqlDatabase)
+
+      # Step 5: Publish the Playwright HTML report as an artifact (optional)
+      - task: PublishPipelineArtifact@1
+        displayName: 'Publish Playwright Report'
+        inputs:
+          targetPath: tests/playwright-report/  # Adjust if necessary
+          artifact: 'Playwright Report'
+          publishLocation: 'pipeline'

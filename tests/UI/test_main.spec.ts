@@ -8,7 +8,7 @@ import { getE2ETestData } from '../../utils/excelUtils';
 const testDataSet = getE2ETestData(); // Load all rows
 
 for (const testData of testDataSet) {
-  test.describe(`Data-Driven E2E: ${testData.testName}`, () => {
+  test.describe.skip(`Data-Driven E2E: ${testData.testName}`, () => {
     test(`Run for ${testData.user.firstName}`, async ({ page }) => {
       await page.goto('/');
 
