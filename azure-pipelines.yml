@@ -8,7 +8,7 @@ jobs:
     displayName: 'Playwright Tests with Power BI Integration'
 
     pool:
-      vmImage: 'ubuntu-latest'  # Runs the pipeline on an Ubuntu VM
+      name: 'MyAgentPool'  # Runs the pipeline on an Ubuntu VM
 
     variables:
       sqlUser: 'bikash488'  # Replace with your SQL username
