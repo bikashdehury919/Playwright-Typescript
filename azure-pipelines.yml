@@ -35,7 +35,7 @@ jobs:
 
       # Step 3: Run Playwright tests and save the result in JSON
       - script: |
-          npx playwright tests --reporter=json > test-results.json
+          npx playwright test --reporter=json > test-results.json
         displayName: 'Run Playwright Tests'
 
       # Step 4: Upload results to Azure SQL
