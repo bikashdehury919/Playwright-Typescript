@@ -8,17 +8,17 @@ jobs:
     displayName: Run Playwright Tests on Local Agent
 
     pool:
-      name: 'MyAgentPool'  # Replace with your self-hosted agent pool name
+      name: 'MyAgentPool'  # ✅ Use your self-hosted agent pool
 
     steps:
-      # Step 1: Install Node.js dependencies
+      # Step 1: Install dependencies
       - task: PowerShell@2
-        displayName: 'Install dependencies'
+        displayName: 'Install NPM dependencies'
         inputs:
           targetType: 'inline'
           script: |
             npm ci
-            npm install playwright typescript ts-node mssql
+            npm install playwright allure-playwright typescript ts-node mssql
           workingDirectory: tests/
 
       # Step 2: Install Playwright browsers
@@ -30,19 +30,19 @@ jobs:
             npx playwright install
           workingDirectory: tests/
 
-      # Step 3: Run Playwright tests
+      # Step 3: Run Playwright Tests with Allure Reporter
       - task: PowerShell@2
         displayName: 'Run Playwright tests'
         inputs:
           targetType: 'inline'
           script: |
-            npx playwright test --reporter=html
+            npx playwright test tests --reporter=line,allure-playwright
           workingDirectory: tests/
 
-      # Step 4: Publish Playwright HTML report as artifact
+      # Step 4: Publish Allure Results (optional)
       - task: PublishPipelineArtifact@1
-        displayName: 'Upload Playwright Report'
+        displayName: 'Publish Allure Results'
         inputs:
-          targetPath: tests/playwright-report/
-          artifact: 'Playwright tests'
+          targetPath: 'tests/allure-results'
+          artifact: 'Allure Results'
           publishLocation: 'pipeline'
