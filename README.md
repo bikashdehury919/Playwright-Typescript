@@ -1,29 +1,220 @@
-# Playwright End-to-End Automation Framework (UI + API)
+# Enterprise-Grade Playwright Framework with Azure CI & Allure Reporting
 
-Welcome to an advanced, scalable, and maintainable **Playwright-based Test Automation Framework**, built to test both **UI and API** workflows. This setup follows **data-driven** test design using **Excel** and integrates industry best practices.
+[![Playwright](https://img.shields.io/badge/Playwright-v1.54.1-brightgreen.svg)](https://playwright.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-v5.9.3-blue.svg)](https://www.typescriptlang.org/)
+[![Node.js](https://img.shields.io/badge/Node.js-v18+-success.svg)](https://nodejs.org/)
 
----
+## 🎭 About The Framework
 
+A robust, scalable, and enterprise-ready End-to-End Testing Framework built with Playwright and TypeScript. Designed to support both UI and API testing with industry best practices and patterns.
 
-## Key Features
+### Author & Architect
 
-- End-to-end UI Automation with Playwright
-- REST API Testing integrated in the same codebase
-- Test data via JSON, Excel (xlsx), and database-ready design
-- Fixtures and custom test lifecycle (`beforeEach`, `afterEach`)
-- Test Reporting (HTML)
-- Cookie & tracker blocker for clean test runs
-- .env` support for dynamic config (UI & API URLs)
-- Folder-level scalability: Easily extend to mobile, visual, or performance tests
+**Bikash Dehury**  
+*Automation Architect*  
+[LinkedIn](https://www.linkedin.com/in/bikash-dehury-90a10577/) | [GitHub](https://github.com/bikashdehury919/Playwright-Typescript)
 
----
+## 🌟 Key Features
 
-## Folder Structure
+- **Multi-Testing Paradigms**
+  - End-to-End UI Testing
+  - REST API Testing
+  - Visual Testing capabilities
+  - Performance metrics collection
+  - Cross-browser testing support
+
+- **Advanced Data Management**
+  - Data-Driven Testing using Excel (XLSX)
+  - JSON fixtures support
+  - Dynamic test data generation
+  - Database integration ready
+
+- **Robust Architecture**
+  - Page Object Model (POM)
+  - Custom fixtures implementation
+  - Reusable components
+  - Type-safe locators
+  - Modular test structure
+
+- **CI/CD Integration**
+  - Azure DevOps pipeline configuration
+  - GitHub Actions ready
+  - Docker support
+  - Parallel execution capability
+
+- **Comprehensive Reporting**
+  - HTML reports with screenshots
+  - Allure reporting integration
+  - Test execution videos
+  - Trace viewer support
+  - Failure analysis tools
+
+## 🏗 Project Structure
 
 ```bash
 .
-├── data/                  # Test data (Excel, JSON)
-│   ├── e2eData.xlsx       # Excel test data (Data-driven E2E)
+├── data/                   # Test data (Excel, JSON)
+├── locators/              # UI element locators
+├── pages/                 # Page Object Models
+├── tests/                 # Test suites
+│   ├── api/              # API tests
+│   └── UI/               # UI tests
+├── utils/                # Utility functions
+├── playwright.config.ts  # Playwright configuration
+└── fixtures.ts          # Custom test fixtures
+```
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js (v18 or higher)
+- npm (v9 or higher)
+- Visual Studio Code
+
+### Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/bikashdehury919/Playwright-Typescript.git
+cd Playwright-Typescript
+```
+
+2. Install dependencies
+```bash
+npm install
+npx playwright install
+```
+
+3. Set up environment variables
+```bash
+cp .env.example .env
+# Update .env with your configuration
+```
+
+## 🎯 Running Tests
+
+### UI Tests
+```bash
+# Run all UI tests
+npm run test:ui
+
+# Run specific test file
+npm run test:ui tests/UI/test_main.spec.ts
+
+# Run in headed mode
+npm run test:ui:headed
+```
+
+### API Tests
+```bash
+# Run all API tests
+npm run test:api
+
+# Run specific API test
+npm run test:api tests/api/get_product.spec.ts
+```
+
+## 📊 Test Reports
+
+- **HTML Report**: Available at `playwright-report/index.html`
+- **Allure Report**: Generated in `allure-report` directory
+- **Trace Viewer**: Available for failed tests
+
+## 🔧 Framework Components
+
+### 1. Page Objects
+- Implemented using TypeScript classes
+- Encapsulated UI interactions
+- Reusable methods and properties
+
+### 2. Fixtures
+- Custom test context
+- Shared browser context
+- API request context
+- Data-driven test helpers
+
+### 3. Utilities
+- Excel data reader
+- File operations
+- API helpers
+- Common functions
+
+### 4. Configuration
+- Environment-based settings
+- Cross-browser configurations
+- Parallel execution settings
+- Reporter configurations
+
+## 🔐 Security Features
+
+- Environment variable protection
+- Secure credential management
+- Cookie handling
+- Network request interception
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+## 📝 Best Practices
+
+- **Code Style**: Following TypeScript best practices
+- **Naming Conventions**: Clear and consistent naming
+- **Error Handling**: Robust error handling mechanisms
+- **Comments**: JSDoc style documentation
+- **Git Workflow**: Feature branch workflow
+
+## 📚 Documentation
+
+- [Playwright Documentation](https://playwright.dev/docs/intro)
+- [TypeScript Documentation](https://www.typescriptlang.org/docs/)
+- [Test Examples](https://github.com/bikashdehury919/Playwright-Typescript/blob/main/tests/UI/test_main.spec.ts)
+
+---
+
+## 🤖 Continuous Integration
+
+### Azure DevOps Pipeline
+- Automated test execution
+- Cross-browser testing
+- Test report generation
+- Failure notifications
+
+### GitHub Actions
+- PR validation
+- Scheduled test runs
+- Environment deployment
+- Security scanning
+
+## 📈 Performance Considerations
+
+- Parallel test execution
+- Resource cleanup
+- Memory management
+- Network optimization
+
+## 🔍 Debugging
+
+- Trace viewer support
+- Screenshot capture
+- Video recording
+- Console logging
+
+## 🌐 Supported Browsers
+
+- Chromium
+- Firefox
+- WebKit
+- Mobile browsers (via device emulation)
+
+---
+
+*Developed and maintained by Bikash Dehury*
 │   └── testdata.json      # Static test data
 │
 ├── locators/              # All element locators per page
@@ -50,71 +241,4 @@ Welcome to an advanced, scalable, and maintainable **Playwright-based Test Autom
 ├── .env                   # Base URLs (UI & API)
 ├── playwright.config.ts   # Global test config
 └── README.md              # You're here!
-
 ```
-## Getting Started
-
-## Install Dependencies
-
-npm install
-Make sure the following packages are included:
-- @playwright/test
-- dotenv
-- xlsx
-### Run Tests
-
-- **Run All Tests (UI + API)**
-  - `npx playwright test`
-
-- **Run Only UI Tests**
-  - `npx playwright test tests/UI`
-
-- **Run API Tests**
-  - `npx playwright test tests/api`
-
-- **View HTML Report**
-  - `npx playwright show-report`
-
-
-## Next Steps & Roadmap 
-
-To evolve this framework into a cutting-edge, enterprise-grade automation solution, here are the prioritized enhancements planned:
-
-- **Implement Database Integration**  
-  Enable dynamic test data sourcing from relational databases such as **PostgreSQL** or **MySQL**, as well as NoSQL databases, to support complex data-driven scenarios and seamless test data management.
-
-- **Advanced Logging & Monitoring**  
-  Integrate structured logging (e.g., Winston, Pino) for comprehensive execution insights, error tracing, and audit trails.
-
-- **Robust CI/CD Pipelines**  
-  Configure GitHub Actions, Azure DevOps, or Jenkins pipelines for seamless automated testing on every commit with parallel execution and environment promotion.
-
-- **Enhanced Reporting & Analytics**  
-  Integrate Allure reports with artifact storage for rich, interactive test insights and historical trend analysis.
-
-- **Multi-Environment Support**  
-  Dynamic environment switching (dev, QA, staging) leveraging `.env` profiles and config management.
-
-- **Cross-Browser & Cross-Platform Testing**  
-  Expand coverage across Chromium, Firefox, WebKit, and mobile emulations to ensure consistent behavior everywhere.
-
-- **Visual Regression Testing**  
-  Use Playwright Snapshots and/or tools like Percy to catch UI regressions early and maintain pixel-perfect UI.
-
-- **Accessibility (a11y) Testing**  
-  Integrate automated accessibility checks (e.g., Axe-core, Pa11y) into CI to ensure compliance with WCAG standards and deliver inclusive experiences.
-
-- **Behavior-Driven Development (BDD)**  
-  Adopt Cucumber or Gherkin syntax for human-readable, business-focused test cases that improve collaboration between technical and non-technical stakeholders.
-
-- **Self-Healing & AI-Powered Automation**  
-  Introduce AI-driven element locator healing, flaky test detection, and smart retries to reduce maintenance overhead and boost reliability.
-
-- **Synthetic & Fake Data Generation**  
-  Integrate libraries like Faker.js or Mockaroo to create realistic, privacy-compliant synthetic test data for robust and scalable test coverage.
-
-- **Cloud-Enabled & Scalable Test Execution**  
-  Leverage Azure DevOps pipelines with parallel execution agents and cloud-hosted browser grids for scalable test runs.
-
-- **Security & Performance Testing Integration**  
-  Extend framework to include API security scanning and baseline performance metrics for holistic quality assurance.
