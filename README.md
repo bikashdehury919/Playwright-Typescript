@@ -211,7 +211,7 @@ npm run test:api tests/api/get_product.spec.ts
 - Firefox
 - WebKit
 
-## Sample Allure reports
+## 📝 Sample Allure reports
 
 <img width="1900" height="883" alt="image" src="https://github.com/user-attachments/assets/f7936943-195f-4a4c-ba12-541f502f0d42" />
 <img width="1905" height="900" alt="image" src="https://github.com/user-attachments/assets/c40b8983-8a60-4f7a-801e-9f8f451fa858" />
