@@ -210,35 +210,10 @@ npm run test:api tests/api/get_product.spec.ts
 - Chromium
 - Firefox
 - WebKit
-- Mobile browsers (via device emulation)
 
----
+## Sample Allure reports
 
-*Developed and maintained by Bikash Dehury*
-│   └── testdata.json      # Static test data
-│
-├── locators/              # All element locators per page
-│   ├── home_locators.ts
-│   ├── checkout_locators.ts
-│   └── ...
-│
-├── pages/                 # Page Object Models (POMs)
-│   ├── home_page.ts
-│   ├── checkout_page.ts
-│   ├── product_page.ts
-│   └── api_base.ts        # API wrapper class
-│
-├── tests/
-│   ├── api/               # API test cases
-│   └── UI/                # UI test cases (E2E)
-│       └── test_main.spec.ts
-│
-├── utils/                 # Utilities (Excel, file, DB, etc.)
-│   ├── excelUtils.ts      # Excel reader utility
-│   └── fileUtils.ts       # File helpers
-│
-├── fixtures.ts            # Custom test lifecycle & Playwright config extensions
-├── .env                   # Base URLs (UI & API)
-├── playwright.config.ts   # Global test config
-└── README.md              # You're here!
-```
+<img width="1900" height="883" alt="image" src="https://github.com/user-attachments/assets/f7936943-195f-4a4c-ba12-541f502f0d42" />
+<img width="1905" height="900" alt="image" src="https://github.com/user-attachments/assets/c40b8983-8a60-4f7a-801e-9f8f451fa858" />
+
+
