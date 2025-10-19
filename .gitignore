@@ -8,3 +8,4 @@ node_modules/
 writeAllureMetadata.js
 /allure-results/
 /allure-report/
+allure-report/

@@ -24,6 +24,11 @@ export default defineConfig({
   reporter: [
     ['html', { open: isCI ? 'never' : 'on-failure' }],
     ['list'],
+    ['allure-playwright', {
+    outputFolder: 'allure-results',  // points outside tests/
+    detail: true,
+    suiteTitle: false
+  }]
   ],
   use: {
     baseURL,

@@ -5,44 +5,90 @@ trigger:
 
 jobs:
   - job: BuildAndTest
-    displayName: Run Playwright Tests on Local Agent
-
+    displayName: Run Playwright Tests with Allure Reporting
+    workspace:
+      clean: none   # avoid cleaning the workspace
     pool:
-      name: 'MyAgentPool'  # ✅ Use your self-hosted agent pool
+      name: 'MyAgentPool'
 
     steps:
-      # Step 1: Install dependencies
+      - checkout: self
+        clean: true
+
+      - task: PowerShell@2
+        displayName: 'Debug Pre-Build Structure'
+        inputs:
+          targetType: 'inline'
+          script: |
+            Write-Host "Root content:"
+            dir
+            if (Test-Path tests\allure-results) {
+              Write-Host "allure-results exists:"
+              dir tests\allure-results
+            } else {
+              Write-Host "allure-results NOT found"
+            }
+
+      # Step 1: Install NPM dependencies
       - task: PowerShell@2
         displayName: 'Install NPM dependencies'
         inputs:
           targetType: 'inline'
           script: |
             npm ci
-            npm install playwright allure-playwright typescript ts-node mssql
-          workingDirectory: tests/
+            npm install allure-playwright typescript ts-node mssql
+            npm install -g allure-commandline --save-dev
 
       # Step 2: Install Playwright browsers
       - task: PowerShell@2
-        displayName: 'Install Playwright browsers'
+        displayName: 'Install Playwright Browsers'
         inputs:
           targetType: 'inline'
           script: |
             npx playwright install
-          workingDirectory: tests/
 
-      # Step 3: Run Playwright Tests with Allure Reporter
+      # Step 3: Run Playwright Tests
       - task: PowerShell@2
-        displayName: 'Run Playwright tests'
+        displayName: 'Run Playwright Tests'
         inputs:
           targetType: 'inline'
           script: |
-            npx playwright test tests --reporter=line,allure-playwright
+            npx playwright test --config=../playwright.config.ts --reporter=line,allure-playwright
           workingDirectory: tests/
+        env:
+          BASE_URL: $(BASE_URL)
+          API_BASE_URL: $(API_BASE_URL)
+          CI: 'true'
 
-      # Step 4: Publish Allure Results (optional)
-      - task: PublishPipelineArtifact@1
-        displayName: 'Publish Allure Results'
+
+      # Step 4: Add Metadata (Environment & Executor)
+      - task: PowerShell@2
+        displayName: 'Add Allure Metadata'
+        condition: always()
         inputs:
-          targetPath: 'tests/allure-results'
-          artifact: 'Allure Results'
-          publishLocation: 'pipeline'
+          targetType: 'inline'
+          script: |
+            "BASE_URL=$(BASE_URL)`nBrowser=Chromium" | Out-File -Encoding ascii tests/allure-results/environment.properties
+            $executor = @{
+              name = "Bikash Dehury"
+              type = "CI"
+              reportName = "Playwright API Test Report"
+              url = "$(System.TeamFoundationCollectionUri)$(System.TeamProject)/_build/results?buildId=$(Build.BuildId)"
+              buildOrder = "$(Build.BuildId)"
+              buildName = "$(Build.DefinitionName)"
+              buildUrl = "$(Build.BuildUri)"
+            }
+            $executor | ConvertTo-Json -Depth 3 | Out-File -Encoding utf8 tests/allure-results/executor.json
+
+      # Step 5: Publish Allure Report to Azure DevOps (with trends)
+      - task: PublishAllureReport@1
+        displayName: 'Publish Allure Report'
+        condition: always()
+        inputs:
+          allureVersion: '2.27.0'
+          testResultsDir: 'tests/allure-results'
+          reportDir: 'allure-report'
+          reportTitle: 'Playwright API Tests'
+          includeHistory: true
+          persistCredentials: true
+
