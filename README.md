@@ -11,7 +11,7 @@ A robust, scalable, and enterprise-ready End-to-End Testing Framework built with
 ### Author & Architect
 
 **Bikash Dehury**  
-*Automation Architect*  
+*Test Automation Specialist*  
 [LinkedIn](https://www.linkedin.com/in/bikash-dehury-90a10577/) | [GitHub](https://github.com/bikashdehury919/Playwright-Typescript)
 
 ## 🌟 Key Features
